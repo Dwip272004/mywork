@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: homework-platform
+    env: python
+    plan: free  # You can change to 'starter' or 'pro' for more capabilities
+    buildCommand: |
+      pip install -r requirements.txt
+      flask db upgrade  # Runs migrations if you're using Flask-Migrate
+    startCommand: flask run --host=0.0.0.0 --port=10000  # Adjust if needed
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        value: 'your_secret_key'  # Replace with your actual secret key
+      - key: DATABASE_URL
+        value: 'postgresql://<user>:<password>@<host>:<port>/<database>' # Replace with your database URL
+      - key: UPLOAD_FOLDER
+        value: './uploads'  # Ensure this folder is correctly set for file uploads
+      - key: ALLOWED_EXTENSIONS
+        value: 'pdf, jpg, png'  # Modify to match your allowed file types
+    # Optional: Set up health checks
+    healthCheckPath: /
+
+  # Add a database if needed
+databases:
+  - name: homework-platform-db
+    plan: free  # You can choose starter/pro for more capabilities
+    user: your_db_user
+    password: your_db_password
