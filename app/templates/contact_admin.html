@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Admin - Homework Platform{% endblock %}
+
+{% block content %}
+<div class="contact-admin-container">
+    <h1 class="page-title">Contact Admin</h1>
+    <div class="work-details">
+        <h2 class="work-title">Regarding: {{ work.name }}</h2>
+        <p class="work-description"><strong>Description:</strong> {{ work.description }}</p>
+        <p class="work-cost"><strong>Cost:</strong> ${{ "%.2f"|format(work.cost) }}</p>
+        <p class="work-deadline"><strong>Deadline:</strong> {{ work.deadline.strftime('%Y-%m-%d %H:%M') }}</p>
+        {% if work.file_path %}
+            <p class="work-file">
+                <strong>File:</strong> 
+                <a href="{{ url_for('uploaded_file', filename=work.file_path) }}" target="_blank" class="btn btn-secondary btn-sm">Download</a>
+            </p>
+        {% endif %}
+    </div>
+
+    <form method="POST" class="contact-form">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.message.label(class="form-label") }}
+            {{ form.message(class="form-control", rows="5", placeholder="Enter your message here...") }}
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">{{ form.submit.label }}</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

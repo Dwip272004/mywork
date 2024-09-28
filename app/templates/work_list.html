@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Available Works - Homework Platform{% endblock %}
+
+{% block content %}
+<div class="work-list-container">
+    <h1 class="page-title">Available Works</h1>
+    
+    {% if works %}
+        <div class="work-grid">
+            {% for work in works %}
+                <div class="work-item">
+                    <h2 class="work-title">{{ work.name }}</h2>
+                    <p class="work-description">{{ work.description }}</p>
+                    <div class="work-details">
+                        <p class="work-cost"><strong>Cost:</strong> ${{ "%.2f"|format(work.cost) }}</p>
+                        <p class="work-deadline"><strong>Deadline:</strong> {{ work.deadline.strftime('%Y-%m-%d %H:%M') }}</p>
+                    </div>
+                    {% if work.file_path %}
+                        <a href="{{ url_for('uploaded_file', filename=work.file_path) }}" class="btn btn-secondary btn-sm" target="_blank">View Attachment</a>
+                    {% endif %}
+                    <a href="{{ url_for('contact_admin', work_id=work.id) }}" class="btn btn-primary btn-sm">Contact Admin</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-works-message">No works available at the moment. Check back later!</p>
+    {% endif %}
+</div>
+{% endblock %}

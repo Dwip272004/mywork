@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to Homework Platform{% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <h1>Welcome to the Homework Platform</h1>
+        <p>Streamline your academic journey with our efficient homework submission and browsing system.</p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('submit_homework') }}" class="btn btn-primary">Submit Homework</a>
+            <a href="{{ url_for('work_list') }}" class="btn btn-secondary">Browse Work</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <h2>Easy Submission</h2>
+            <p>Upload your homework quickly and securely with our user-friendly interface.</p>
+        </div>
+        <div class="feature-card">
+            <h2>Browse Opportunities</h2>
+            <p>Find homework assignments that match your skills and interests.</p>
+        </div>
+        <div class="feature-card">
+            <h2>Secure Platform</h2>
+            <p>Your data and submissions are protected with state-of-the-art security measures.</p>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <h2>How It Works</h2>
+        <ol class="steps">
+            <li>Create an account or log in</li>
+            <li>Browse available homework assignments</li>
+            <li>Submit your work or post a new assignment</li>
+            <li>Collaborate and communicate with others</li>
+        </ol>
+    </section>
+{% endblock %}

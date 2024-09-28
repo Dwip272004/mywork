@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Homework - Homework Platform{% endblock %}
+
+{% block content %}
+<div class="submit-homework-container">
+    <h1 class="page-title">Submit Homework</h1>
+    <form method="POST" enctype="multipart/form-data" id="homework-form" class="homework-form">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.description.label(class="form-label") }}
+            {{ form.description(class="form-control", rows="4") }}
+        </div>
+        <div class="form-group">
+            {{ form.cost.label(class="form-label") }}
+            <div class="input-group">
+                <span class="input-group-text">$</span>
+                {{ form.cost(class="form-control", step="0.01", min="0") }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.deadline.label(class="form-label") }}
+            {{ form.deadline(class="form-control", type="datetime-local") }}
+        </div>
+        <div class="form-group">
+            {{ form.file.label(class="form-label") }}
+            <div class="file-input-wrapper">
+                {{ form.file(class="form-control-file", accept=".pdf,.doc,.docx,.txt") }}
+                <span class="file-input-button">Choose File</span>
+            </div>
+            <small class="form-text text-muted">Accepted file types: PDF, DOC, DOCX, TXT</small>
+        </div>
+        {{ form.submit(class="btn btn-primary mt-3") }}
+    </form>
+    <div id="upload-status" class="mt-3"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('homework-form');
+    var statusDiv = document.getElementById('upload-status');
+    var fileInput = document.querySelector('input[type="file"]');
+    var fileInputButton = document.querySelector('.file-input-button');
+
+    if (fileInput && fileInputButton) {
+        fileInputButton.addEventListener('click', function() {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                fileInputButton.textContent = fileInput.files[0].name;
+            } else {
+                fileInputButton.textContent = 'Choose File';
+            }
+        });
+    }
+
+    if (form) {
+        form.onsubmit = function(e) {
+            e.preventDefault();
+            statusDiv.textContent = 'Uploading...';
+            statusDiv.className = 'mt-3 alert alert-info';
+
+            var formData = new FormData(form);
+
+            fetch('{{ url_for("submit_homework") }}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    statusDiv.textContent = 'Homework submitted successfully!';
+                    statusDiv.className = 'mt-3 alert alert-success';
+                    form.reset();
+                    fileInputButton.textContent = 'Choose File';
+                } else {
+                    let errorMessage = 'Error: ' + data.message;
+                    if (data.errors) {
+                        errorMessage += ' - ';
+                        if (Array.isArray(data.errors)) {
+                            errorMessage += data.errors.join(', ');
+                        } else {
+                            errorMessage += data.errors;
+                        }
+                    }
+                    statusDiv.textContent = errorMessage;
+                    statusDiv.className = 'mt-3 alert alert-danger';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                statusDiv.textContent = 'An error occurred while submitting the homework.';
+                statusDiv.className = 'mt-3 alert alert-danger';
+            });
+        };
+    } else {
+        console.error('Form element not found');
+    }
+});
+</script>
+{% endblock %}
