@@ -6,11 +6,3 @@ Werkzeug==2.0.1
 
 
 
-psycopg2-binary  # For PostgreSQL connections
-
-
-
-
-flask db init
-flask db migrate
-flask db upgrade
