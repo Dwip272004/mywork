@@ -1,8 +1,6 @@
-Flask==2.0.1
-Flask-SQLAlchemy==2.5.1
-Flask-Migrate==3.0.1
-Flask-WTF==0.15.1
-Werkzeug==2.0.1
-
-
-
+Flask==2.2.5
+Flask-SQLAlchemy==2.5.1  # Flask-SQLAlchemy compatible with SQLAlchemy 1.4.x
+SQLAlchemy==1.4.46       # SQLAlchemy 1.4.x version for compatibility
+Flask-WTF==1.0.1         # Assuming you are using Flask-WTF for form handling
+WTForms==3.0.1           # Latest version compatible with Flask-WTF
+Werkzeug==2.2.3          # Compatible version of Werkzeug
