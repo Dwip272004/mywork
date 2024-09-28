@@ -1,6 +1,8 @@
-Flask==2.2.5
-Flask-SQLAlchemy==2.5.1  # Flask-SQLAlchemy compatible with SQLAlchemy 1.4.x
-SQLAlchemy==1.4.46       # SQLAlchemy 1.4.x version for compatibility
-Flask-WTF==1.0.1         # Assuming you are using Flask-WTF for form handling
-WTForms==3.0.1           # Latest version compatible with Flask-WTF
-Werkzeug==2.2.3          # Compatible version of Werkzeug
+Flask==2.2.5                # Flask web framework
+Flask-SQLAlchemy==2.5.1     # Flask extension for SQLAlchemy
+SQLAlchemy==1.4.46          # SQLAlchemy ORM for database operations
+Flask-WTF==1.0.1            # Flask extension for WTForms
+WTForms==3.0.1              # Form handling library
+Werkzeug==2.2.3             # WSGI utility library for Flask
+Flask-Migrate==3.1.0        # Database migration tool for Flask applications
+Flask-Login==0.6.1          # User session management for Flask
